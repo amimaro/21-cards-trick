@@ -8,6 +8,19 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'app',
+  created () {
+    try {
+      this.$store.dispatch('startTrick')
+    } catch (e) {
+      console.error(e)
+    }
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
