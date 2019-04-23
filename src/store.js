@@ -63,7 +63,7 @@ export default new Vuex.Store({
     },
     async restartTrick ({ commit, state }) {
       try {
-        await axios.get(`${state.apiURL}/${state.deck_id}/shuffle/`)        
+        await axios.get(`${state.apiURL}/${state.deck_id}/shuffle/`)
         const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
         console.log('okok')
         commit('SET_CARDS', cards.data['cards'])
@@ -114,10 +114,18 @@ export default new Vuex.Store({
     },
     async rearrangeCards ({ commit, state }) {
       try {
+        let cards = []
         const pile0 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile0/draw/?count=7`)
         const pile1 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile1/draw/?count=7`)
         const pile2 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile2/draw/?count=7`)
-        commit('SET_CARDS', [...pile0.data.cards, ...pile1.data.cards, ...pile2.data.cards])
+        let piles = [...pile0.data.cards, ...pile1.data.cards, ...pile2.data.cards]
+        for (let i = 0; i < 7; i++) {
+          for (let j = 0; j < 3; j++) {
+            console.log(i + 7 * j, 3 * i + j)
+            cards[i + 7 * j] = piles[j + i * 3]
+          }  
+        }
+        commit('SET_CARDS', cards)
       } catch (e) {
         throw e
       }

@@ -37,6 +37,13 @@ export default {
       hoverPile2: false
     }
   },
+  watch: {
+    round () {
+      if (this.round === 3) {
+        console.log(this.cards[9])
+      }
+    }
+  },
   methods: {
     ...mapActions(['playRound', 'restartTrick']),
     getPileNumber (index) {
