@@ -2,32 +2,24 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
-        <div class="modal-container">
-          <div class="modal-header">
-            <h3>Greetings!</h3>
-          </div>
-          <div class="modal-body">
-            <p>This is a 21 cards magic trick.</p>
-            <p>Today, I'm gonna read your mind.</p>
-            <p>With my powers I'll pop the card that you thought.</p>
-            <p>Please, choose a card and select the pile which your card is.</p>
-          </div>
-          <div class="modal-footer">
-            <div align="center">
-              <button class="btn" @click="toggleModal()">Ok</button>
-            </div>
-          </div>
-        </div>
+        <ModalWelcome v-if="round === 0"/>
       </div>
     </div>
   </transition>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import ModalWelcome from '@/components/Modal/Welcome'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'Modal',
+  computed: {
+    ...mapState(['round'])
+  },
+  components: {
+    ModalWelcome
+  },
   methods: {
     ...mapActions(['toggleModal'])
   }
@@ -35,7 +27,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 p {
   padding-bottom: 3%;
 }
