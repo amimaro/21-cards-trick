@@ -13,8 +13,8 @@ export default new Vuex.Store({
     showModal: true
   },
   mutations: {
-    SET_DECKID (state, deck_id) {
-      state.deck_id = deck_id
+    SET_DECKID (state, deckId) {
+      state.deck_id = deckId
     },
     SET_CARDS (state, cards) {
       state.cards = cards
@@ -128,7 +128,7 @@ export default new Vuex.Store({
           for (let j = 0; j < 3; j++) {
             console.log(i + 7 * j, 3 * i + j)
             cards[i + 7 * j] = piles[j + i * 3]
-          }  
+          }
         }
         commit('SET_CARDS', cards)
       } catch (e) {
