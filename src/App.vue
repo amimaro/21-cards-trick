@@ -32,7 +32,7 @@ body,
 html {
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
-  background-color: black;
+  background-color: rgb(94, 94, 94);
 }
 * {
   padding: 0px;
