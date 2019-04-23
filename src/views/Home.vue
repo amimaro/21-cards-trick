@@ -6,10 +6,11 @@
           class="card"
           :src="card.images.png"
           :alt="`card-${card.value}`"
+          @click="selectPile($event)"
           :pile="getPileNumber(index)"
           @mouseover="handleMouseover($event)"
           @mouseleave="handleMouseleave($event)"
-          :class="{ active: getPileNumber(index) === 1 ? hoverPile1 : getPileNumber(index) === 2 ? hoverPile2 : hoverPile3}"
+          :class="{ active: getPileNumber(index) === 0 ? hoverPile0 : getPileNumber(index) === 1 ? hoverPile1 : hoverPile2}"
         >
       </div>
     </div>
@@ -17,35 +18,40 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'home',
   computed: {
     ...mapState(['cards'])
   },
-  data() {
+  data () {
     return {
+      hoverPile0: false,
       hoverPile1: false,
-      hoverPile2: false,
-      hoverPile3: false
+      hoverPile2: false
     }
   },
   methods: {
+    ...mapActions(['playRound']),
     getPileNumber (index) {
-      return index <= 6 ? 1 : index > 6 && index <= 13 ? 2 : 3
+      return index <= 6 ? 0 : index > 6 && index <= 13 ? 1 : 2
+    },
+    selectPile (e) {
+      const pileIndex = parseInt(e.target.getAttribute('pile'))
+      this.playRound(pileIndex)
     },
     handleMouseover (e) {
       const pile = parseInt(e.target.getAttribute('pile'))
-      if (pile === 1) this.hoverPile1 = true
+      if (pile === 0) this.hoverPile0 = true
+      else if (pile === 1) this.hoverPile1 = true
       else if (pile === 2) this.hoverPile2 = true
-      else if (pile === 3) this.hoverPile3 = true
     },
     handleMouseleave (e) {
       const pile = parseInt(e.target.getAttribute('pile'))
-      if (pile === 1) this.hoverPile1 = false
+      if (pile === 0) this.hoverPile0 = false
+      else if (pile === 1) this.hoverPile1 = false
       else if (pile === 2) this.hoverPile2 = false
-      else if (pile === 3) this.hoverPile3 = false
     }
   }
 }
