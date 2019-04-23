@@ -10,7 +10,8 @@ export default new Vuex.Store({
     cards: [],
     round: 0,
     apiURL: 'https://deckofcardsapi.com/api/deck',
-    showModal: true
+    showModal: true,
+    loading: true,
   },
   mutations: {
     SET_DECKID (state, deckId) {
@@ -29,6 +30,9 @@ export default new Vuex.Store({
     },
     TOGGLE_MODAL (state) {
       state.showModal = !state.showModal
+    }, 
+    TOGGLE_LOADING (state) {
+      state.loading = !state.loading
     }
   },
   getters: {
@@ -43,10 +47,11 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async startTrick ({ dispatch }) {
+    async startTrick ({ dispatch, commit }) {
       try {
         await dispatch('newDeck')
         await dispatch('drawCards')
+        commit('TOGGLE_LOADING')
       } catch (e) {
         throw e
       }
@@ -69,16 +74,20 @@ export default new Vuex.Store({
     },
     async restartTrick ({ commit, state }) {
       try {
+        commit('TOGGLE_LOADING')
         await axios.get(`${state.apiURL}/${state.deck_id}/shuffle/`)
         const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
         commit('SET_CARDS', cards.data['cards'])
         commit('RESET_ROUND')
       } catch (e) {
         throw e
+      } finally {
+        commit('TOGGLE_LOADING')
       }
     },
     async playRound ({ getters, dispatch, commit, state }, pileIndex) {
       try {
+        commit('TOGGLE_LOADING')
         const selectedPile = pileIndex
         let codes = {
           pile0: '',
@@ -106,6 +115,8 @@ export default new Vuex.Store({
         commit('INCREMENT_ROUND')
       } catch (e) {
         throw e
+      } finally {
+        commit('TOGGLE_LOADING')
       }
     },
     async createPiles ({ state }, cardCodes) {

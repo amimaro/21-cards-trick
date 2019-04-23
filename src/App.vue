@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Loading v-if="loading" />
     <Modal v-if="showModal" @close="showModal = false"/>
     <router-view/>
   </div>
@@ -7,15 +8,17 @@
 
 <script>
 import Modal from '@/components/Modal/Index'
+import Loading from '@/components/Loading'
 import { mapState } from 'vuex'
 
 export default {
   name: 'app',
   components: {
-    Modal
+    Modal,
+    Loading
   },
   computed: {
-    ...mapState(['showModal'])
+    ...mapState(['showModal', 'loading'])
   },
   created () {
     try {
