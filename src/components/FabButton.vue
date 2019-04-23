@@ -18,6 +18,7 @@ export default {
 }
 
 .fab {
+  z-index: 1000;
   position: fixed;
   cursor: pointer;
   width: 5vw;
