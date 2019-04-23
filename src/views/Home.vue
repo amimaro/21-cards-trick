@@ -2,7 +2,15 @@
   <div class="home">
     <div class="grid-container">
       <div class="grid-item" v-for="(card, index) in cards" :key="index">
-        <img class="card" :src="card.images.png" :alt="`card-${card.value}`">
+        <img
+          class="card"
+          :src="card.images.png"
+          :alt="`card-${card.value}`"
+          :pile="getPileNumber(index)"
+          @mouseover="handleMouseover($event)"
+          @mouseleave="handleMouseleave($event)"
+          :class="{ active: getPileNumber(index) === 1 ? hoverPile1 : getPileNumber(index) === 2 ? hoverPile2 : hoverPile3}"
+        >
       </div>
     </div>
   </div>
@@ -10,10 +18,35 @@
 
 <script>
 import { mapState } from 'vuex'
+
 export default {
   name: 'home',
   computed: {
     ...mapState(['cards'])
+  },
+  data() {
+    return {
+      hoverPile1: false,
+      hoverPile2: false,
+      hoverPile3: false
+    }
+  },
+  methods: {
+    getPileNumber (index) {
+      return index <= 6 ? 1 : index > 6 && index <= 13 ? 2 : 3
+    },
+    handleMouseover (e) {
+      const pile = parseInt(e.target.getAttribute('pile'))
+      if (pile === 1) this.hoverPile1 = true
+      else if (pile === 2) this.hoverPile2 = true
+      else if (pile === 3) this.hoverPile3 = true
+    },
+    handleMouseleave (e) {
+      const pile = parseInt(e.target.getAttribute('pile'))
+      if (pile === 1) this.hoverPile1 = false
+      else if (pile === 2) this.hoverPile2 = false
+      else if (pile === 3) this.hoverPile3 = false
+    }
   }
 }
 </script>
@@ -26,6 +59,13 @@ export default {
 }
 .card {
   width: 99%;
+  transition: all 0.2s ease-in-out;
+}
+.active {
+  transform: scale(1.1);
+  -webkit-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
 }
 .grid-item {
   text-align: center;
