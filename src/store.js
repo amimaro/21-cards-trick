@@ -11,11 +11,11 @@ export default new Vuex.Store({
     apiURL: 'https://deckofcardsapi.com/api/deck'
   },
   mutations: {
-    SET_DECKID (state, payload) {
-      state.deck_id = payload['deck_id']
+    SET_DECKID (state, deck_id) {
+      state.deck_id = deck_id
     },
-    SET_CARDS (state, payload) {
-      state.cards = payload
+    SET_CARDS (state, cards) {
+      state.cards = cards
     }
   },
   getters: {
@@ -41,7 +41,7 @@ export default new Vuex.Store({
     async newDeck ({ commit, state }) {
       try {
         const deck = await axios.get(`${state.apiURL}/new/shuffle/?deck_count=1`)
-        commit('SET_DECKID', deck.data)
+        commit('SET_DECKID', deck.data['deck_id'])
       } catch (e) {
         throw e
       }
@@ -49,7 +49,17 @@ export default new Vuex.Store({
     async drawCards ({ commit, state }) {
       try {
         const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
-        commit('SET_CARDS', cards.data.cards)
+        commit('SET_CARDS', cards.data['cards'])
+      } catch (e) {
+        throw e
+      }
+    },
+    async restartTrick ({ commit, state }) {
+      try {
+        await axios.get(`${state.apiURL}/${state.deck_id}/shuffle/`)        
+        const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
+        console.log('okok')
+        commit('SET_CARDS', cards.data['cards'])
       } catch (e) {
         throw e
       }

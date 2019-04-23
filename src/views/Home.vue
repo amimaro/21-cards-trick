@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <FabButton label="⟲" @click.native="restartTrick()" />
     <div class="grid-container">
       <div class="grid-item" v-for="(card, index) in cards" :key="index">
         <img
@@ -18,12 +19,16 @@
 </template>
 
 <script>
+import FabButton from '@/components/FabButton'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'home',
   computed: {
     ...mapState(['cards'])
+  },
+  components: {
+    FabButton
   },
   data () {
     return {
@@ -33,7 +38,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['playRound']),
+    ...mapActions(['playRound', 'restartTrick']),
     getPileNumber (index) {
       return index <= 6 ? 0 : index > 6 && index <= 13 ? 1 : 2
     },
@@ -96,4 +101,5 @@ export default {
     grid-template-areas: repeat(7, ". . .");
   }
 }
+
 </style>
