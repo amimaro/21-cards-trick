@@ -81,9 +81,9 @@ export default {
 }
 .active {
   transform: scale(1.1);
-  -webkit-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
-  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.75);
+  -webkit-box-shadow: 0px 10px 15px 0px rgba(255, 255, 255, 0.75);
+  -moz-box-shadow: 0px 10px 15px 0px rgba(255, 255, 255, 0.75);
+  box-shadow: 0px 10px 15px 0px rgba(255, 255, 255, 0.75);
 }
 .grid-item {
   text-align: center;

@@ -32,6 +32,7 @@ body,
 html {
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: black;
 }
 * {
   padding: 0px;
