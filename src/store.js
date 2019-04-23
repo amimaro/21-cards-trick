@@ -9,7 +9,8 @@ export default new Vuex.Store({
     deck_id: null,
     cards: [],
     round: 0,
-    apiURL: 'https://deckofcardsapi.com/api/deck'
+    apiURL: 'https://deckofcardsapi.com/api/deck',
+    showModal: true
   },
   mutations: {
     SET_DECKID (state, deck_id) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     RESET_ROUND (state) {
       state.round = 0
+    },
+    TOGGLE_MODAL (state) {
+      state.showModal = !state.showModal
     }
   },
   getters: {
@@ -119,6 +123,7 @@ export default new Vuex.Store({
         const pile1 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile1/draw/?count=7`)
         const pile2 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile2/draw/?count=7`)
         let piles = [...pile0.data.cards, ...pile1.data.cards, ...pile2.data.cards]
+        // Convert rows to columns
         for (let i = 0; i < 7; i++) {
           for (let j = 0; j < 3; j++) {
             console.log(i + 7 * j, 3 * i + j)
@@ -129,6 +134,9 @@ export default new Vuex.Store({
       } catch (e) {
         throw e
       }
+    },
+    async toggleModal ({ commit }) {
+      commit('TOGGLE_MODAL')
     }
   }
 })
