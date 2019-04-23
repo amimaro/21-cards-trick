@@ -11,7 +11,7 @@ export default new Vuex.Store({
     round: 0,
     apiURL: 'https://deckofcardsapi.com/api/deck',
     showModal: true,
-    loading: true,
+    loading: true
   },
   mutations: {
     SET_DECKID (state, deckId) {
@@ -30,7 +30,7 @@ export default new Vuex.Store({
     },
     TOGGLE_MODAL (state) {
       state.showModal = !state.showModal
-    }, 
+    },
     TOGGLE_LOADING (state) {
       state.loading = !state.loading
     }

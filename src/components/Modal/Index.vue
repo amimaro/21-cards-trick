@@ -20,6 +20,8 @@ import ModalSure from '@/components/Modal/Sure'
 import ModalFound from '@/components/Modal/Found'
 import { mapActions, mapState } from 'vuex'
 
+/* eslint-disable */
+
 export default {
   name: 'Modal',
   computed: {
