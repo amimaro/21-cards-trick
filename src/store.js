@@ -7,7 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     deck_id: null,
-    cards: []
+    cards: [],
+    apiURL: 'https://deckofcardsapi.com/api/deck'
   },
   mutations: {
     SET_DECKID (state, payload) {
@@ -37,9 +38,9 @@ export default new Vuex.Store({
         throw e
       }
     },
-    async newDeck ({ commit }) {
+    async newDeck ({ commit, state }) {
       try {
-        const deck = await axios.get('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+        const deck = await axios.get(`${state.apiURL}/new/shuffle/?deck_count=1`)
         commit('SET_DECKID', deck.data)
       } catch (e) {
         throw e
@@ -47,7 +48,7 @@ export default new Vuex.Store({
     },
     async drawCards ({ commit, state }) {
       try {
-        const cards = await axios.get(`https://deckofcardsapi.com/api/deck/${state.deck_id}/draw/?count=21`)
+        const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
         commit('SET_CARDS', cards.data.cards)
       } catch (e) {
         throw e
@@ -77,15 +78,27 @@ export default new Vuex.Store({
         }
         // Push Card Codes to API
         await dispatch('createPiles', codes)
+        // Join the piles of Cards
+        await dispatch('rearrangeCards')
       } catch (e) {
         throw e
       }
     },
     async createPiles ({ state }, cardCodes) {
       try {
-        await axios.get(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/pile0/add/?cards=${cardCodes.pile0}`)
-        await axios.get(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/pile1/add/?cards=${cardCodes.pile1}`)
-        await axios.get(`https://deckofcardsapi.com/api/deck/${state.deck_id}/pile/pile2/add/?cards=${cardCodes.pile2}`)
+        await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile0/add/?cards=${cardCodes.pile0}`)
+        await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile1/add/?cards=${cardCodes.pile1}`)
+        await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile2/add/?cards=${cardCodes.pile2}`)
+      } catch (e) {
+        throw e
+      }
+    },
+    async rearrangeCards ({ commit, state }) {
+      try {
+        const pile0 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile0/draw/?count=7`)
+        const pile1 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile1/draw/?count=7`)
+        const pile2 = await axios.get(`${state.apiURL}/${state.deck_id}/pile/pile2/draw/?count=7`)
+        commit('SET_CARDS', [...pile0.data.cards, ...pile1.data.cards, ...pile2.data.cards])
       } catch (e) {
         throw e
       }
