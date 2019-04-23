@@ -25,7 +25,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
   name: 'home',
   computed: {
-    ...mapState(['cards'])
+    ...mapState(['cards', 'round'])
   },
   components: {
     FabButton

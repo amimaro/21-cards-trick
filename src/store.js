@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     deck_id: null,
     cards: [],
+    round: 0,
     apiURL: 'https://deckofcardsapi.com/api/deck'
   },
   mutations: {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     SET_CARDS (state, cards) {
       state.cards = cards
+    },
+    INCREMENT_ROUND (state) {
+      state.round++
     }
   },
   getters: {
@@ -90,6 +94,7 @@ export default new Vuex.Store({
         await dispatch('createPiles', codes)
         // Join the piles of Cards
         await dispatch('rearrangeCards')
+        commit('INCREMENT_ROUND')
       } catch (e) {
         throw e
       }
