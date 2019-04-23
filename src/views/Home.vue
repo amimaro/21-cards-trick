@@ -39,7 +39,7 @@ export default {
   },
   watch: {
     round () {
-      if (this.round === 3) {
+      if (this.round === 4) {
         console.log(this.cards[10])
       }
     }

@@ -21,9 +21,11 @@ export default new Vuex.Store({
     },
     INCREMENT_ROUND (state) {
       state.round++
+      state.showModal = true
     },
     RESET_ROUND (state) {
       state.round = 0
+      state.showModal = true
     },
     TOGGLE_MODAL (state) {
       state.showModal = !state.showModal
@@ -69,7 +71,6 @@ export default new Vuex.Store({
       try {
         await axios.get(`${state.apiURL}/${state.deck_id}/shuffle/`)
         const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
-        console.log('okok')
         commit('SET_CARDS', cards.data['cards'])
         commit('RESET_ROUND')
       } catch (e) {

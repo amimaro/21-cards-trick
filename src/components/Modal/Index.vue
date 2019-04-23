@@ -3,6 +3,10 @@
     <div class="modal-mask">
       <div class="modal-wrapper">
         <ModalWelcome v-if="round === 0"/>
+        <ModalRound1 v-if="round === 1"/>
+        <ModalRound2 v-if="round === 2"/>
+        <ModalSure v-if="round === 3"/>
+        <ModalFound v-if="round === 4"/>
       </div>
     </div>
   </transition>
@@ -10,6 +14,10 @@
 
 <script>
 import ModalWelcome from '@/components/Modal/Welcome'
+import ModalRound1 from '@/components/Modal/Round1'
+import ModalRound2 from '@/components/Modal/Round2'
+import ModalSure from '@/components/Modal/Sure'
+import ModalFound from '@/components/Modal/Found'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -18,7 +26,11 @@ export default {
     ...mapState(['round'])
   },
   components: {
-    ModalWelcome
+    ModalWelcome,
+    ModalRound1,
+    ModalRound2,
+    ModalSure,
+    ModalFound
   },
   methods: {
     ...mapActions(['toggleModal'])
@@ -28,6 +40,14 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+#card {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+}
+#card img {
+  width: 100px;
+}
 p {
   padding-bottom: 3%;
 }
@@ -43,6 +63,7 @@ p {
   font-family: Arial;
   font-size: 17px;
   padding: 16px 31px;
+  margin: 10px;
   text-decoration: none;
   text-shadow: 0px 1px 0px #2f6627;
 }
@@ -53,7 +74,6 @@ p {
   position: relative;
   top: 1px;
 }
-
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -72,18 +92,18 @@ p {
 .modal-container {
   width: 50vw;
   margin: 0px auto;
-  padding: 20px 30px;
+  padding: 10px 15px;
   background-color: #fff;
   border-radius: 2px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
   transition: all 0.3s ease;
 }
+.modal-header {
+  margin-bottom: 20px;
+}
 .modal-header h3 {
   margin-top: 0;
   color: #42b983;
-}
-.modal-body {
-  margin: 20px 0;
 }
 .modal-enter {
   opacity: 0;
