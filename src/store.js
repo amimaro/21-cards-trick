@@ -20,6 +20,9 @@ export default new Vuex.Store({
     },
     INCREMENT_ROUND (state) {
       state.round++
+    },
+    RESET_ROUND (state) {
+      state.round = 0
     }
   },
   getters: {
@@ -64,6 +67,7 @@ export default new Vuex.Store({
         const cards = await axios.get(`${state.apiURL}/${state.deck_id}/draw/?count=21`)
         console.log('okok')
         commit('SET_CARDS', cards.data['cards'])
+        commit('RESET_ROUND')
       } catch (e) {
         throw e
       }
