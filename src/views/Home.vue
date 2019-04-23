@@ -93,6 +93,7 @@ export default {
   width: 70vw;
   height: 100vh;
   row-gap: 2%;
+  cursor: pointer;
   grid-auto-flow: row;
   grid-template-columns: repeat(7, 10vw);
   grid-template-rows: repeat(3, 30vh);
