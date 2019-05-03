@@ -1,4 +1,4 @@
-# card-trick
+# 21-cards-trick
 
 ## Project setup
 ```
